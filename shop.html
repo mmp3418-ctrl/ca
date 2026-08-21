@@ -13,49 +13,56 @@
             --transition: 0.3s;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* يزيل المربع الأزرق */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
 
         body {
             font-family: 'Arial Black', 'Impact', sans-serif;
             background: var(--white);
             color: var(--black);
         }
-/* الشعار */
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-}
 
-.logo-img {
-    height: 45px;
-    width: auto;
-    display: block;
-}
+        /* إزالة المربع الأزرق من جميع العناصر القابلة للنقر */
+        a, button, div, img {
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
 
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: -1px;
-}
+        /* الشعار */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
 
-.logo-text span {
-    background: #000;
-    color: #fff;
-    padding: 0 5px;
-}
+        .logo-img {
+            height: 45px;
+            width: auto;
+            display: block;
+        }
 
-@media (max-width: 768px) {
-    .logo-img {
-        height: 35px;
-    }
-    .logo-text {
-        font-size: 1.2rem;
-    }
-}
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .logo-text span {
+            background: #000;
+            color: #fff;
+            padding: 0 5px;
+        }
+
         .header {
             background: var(--white);
             border-bottom: var(--border);
@@ -74,30 +81,6 @@
             align-items: center;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo-img {
-            height: 45px;
-            width: auto;
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--black);
-        }
-
-        .logo-text span {
-            background: var(--black);
-            color: var(--white);
-            padding: 0 5px;
-        }
-
         .nav {
             display: flex;
             gap: 1.5rem;
@@ -110,6 +93,7 @@
             font-weight: bold;
             font-size: 0.85rem;
             text-transform: uppercase;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .nav a:hover,
@@ -179,20 +163,23 @@
             padding-bottom: 1rem;
         }
 
+        /* شبكة المنتجات - صفين وعمودين */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr); /* عمودين */
+            grid-template-rows: repeat(3, auto); /* ثلاثة صفوف */
+            gap: 1.5rem;
         }
 
         .product-card {
             border: var(--border);
             background: var(--white);
             transition: var(--transition);
-            cursor: pointer;
             text-decoration: none;
             color: var(--black);
-            display: block;
+            display: flex;
+            flex-direction: column;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .product-card:hover {
@@ -206,6 +193,8 @@
             background: var(--gray);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .product-image img {
@@ -215,6 +204,12 @@
             position: absolute;
             top: 0;
             left: 0;
+            transition: transform 0.4s ease;
+        }
+
+        /* تكبير الصورة عند الضغط عليها */
+        .product-image:active img {
+            transform: scale(1.2);
         }
 
         .product-placeholder {
@@ -241,16 +236,20 @@
             font-weight: bold;
             font-size: 0.9rem;
             z-index: 2;
+            pointer-events: none; /* يمنع تداخل النقر */
         }
 
         .product-info {
             padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
         }
 
         .product-name {
             font-weight: bold;
             font-size: 1rem;
-            margin-bottom: 0.5rem;
             text-transform: uppercase;
         }
 
@@ -259,6 +258,36 @@
             font-weight: 900;
         }
 
+        /* زر عرض المنتج */
+        .view-product-btn {
+            display: block;
+            background: var(--black);
+            color: var(--white);
+            border: var(--border);
+            padding: 0.8rem;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            font-size: 0.9rem;
+            margin-top: auto;
+            -webkit-tap-highlight-color: transparent;
+            text-decoration: none;
+        }
+
+        .view-product-btn:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .view-product-btn:active {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        /* للشاشات المتوسطة */
         @media (max-width: 768px) {
             .nav {
                 display: none;
@@ -269,22 +298,45 @@
             }
             
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr); /* عمودين */
                 gap: 1rem;
             }
             
             .product-image {
                 height: 250px;
             }
+            
+            .logo-img {
+                height: 35px;
+            }
+            
+            .logo-text {
+                font-size: 1.2rem;
+            }
         }
 
+        /* للشاشات الصغيرة جداً */
         @media (max-width: 480px) {
             .products-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr); /* يبقى عمودين */
+                gap: 0.8rem;
             }
             
             .product-image {
-                height: 300px;
+                height: 200px;
+            }
+            
+            .product-name {
+                font-size: 0.8rem;
+            }
+            
+            .product-price {
+                font-size: 1rem;
+            }
+            
+            .view-product-btn {
+                padding: 0.6rem;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -327,7 +379,6 @@
     </div>
 
     <script>
-        // ✏️ عدل هنا: ضع أسماء صورك
         const products = [
             { id: 1, name: "CAPO 1", price: 150, image: "te1.jpeg" },
             { id: 2, name: "CAPO 2", price: 175, image: "te2.jpeg" },
@@ -350,8 +401,8 @@
             const container = document.getElementById('shopProducts');
             
             container.innerHTML = products.map((product, index) => `
-                <a href="product.html?id=${product.id}" class="product-card">
-                    <div class="product-image">
+                <div class="product-card">
+                    <div class="product-image" onclick="window.location.href='product.html?id=${product.id}'">
                         <img src="${product.image}" alt="${product.name}" 
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                         <span class="product-placeholder" style="display: none;">👕</span>
@@ -360,8 +411,11 @@
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
                         <div class="product-price">${product.price} LYD</div>
+                        <a href="product.html?id=${product.id}" class="view-product-btn">
+                            View Product
+                        </a>
                     </div>
-                </a>
+                </div>
             `).join('');
         }
 
