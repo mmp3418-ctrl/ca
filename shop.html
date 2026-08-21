@@ -17,7 +17,7 @@
             margin: 0; 
             padding: 0; 
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* يزيل المربع الأزرق */
+            -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
@@ -29,13 +29,57 @@
             color: var(--black);
         }
 
-        /* إزالة المربع الأزرق من جميع العناصر القابلة للنقر */
         a, button, div, img {
             -webkit-tap-highlight-color: transparent;
             outline: none;
         }
 
-        /* الشعار */
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: preloaderOut 0.5s ease 1s forwards;
+        }
+
+        @keyframes preloaderOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preloader-logo-img {
+            width: 120px;
+            height: auto;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .preloader-logo-text {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #fff;
+            animation: float 2s ease-in-out infinite;
+            letter-spacing: -2px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* الشعار في الهيدر */
         .logo {
             display: flex;
             align-items: center;
@@ -163,11 +207,9 @@
             padding-bottom: 1rem;
         }
 
-        /* شبكة المنتجات - صفين وعمودين */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* عمودين */
-            grid-template-rows: repeat(3, auto); /* ثلاثة صفوف */
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
         }
 
@@ -205,11 +247,15 @@
             top: 0;
             left: 0;
             transition: transform 0.4s ease;
+            pointer-events: auto;
         }
 
-        /* تكبير الصورة عند الضغط عليها */
         .product-image:active img {
-            transform: scale(1.2);
+            transform: scale(1.3);
+        }
+
+        .product-image:hover img {
+            transform: scale(1.1);
         }
 
         .product-placeholder {
@@ -220,6 +266,7 @@
             justify-content: center;
             height: 100%;
             font-size: 6rem;
+            pointer-events: none;
         }
 
         .product-number {
@@ -236,7 +283,7 @@
             font-weight: bold;
             font-size: 0.9rem;
             z-index: 2;
-            pointer-events: none; /* يمنع تداخل النقر */
+            pointer-events: none;
         }
 
         .product-info {
@@ -258,7 +305,6 @@
             font-weight: 900;
         }
 
-        /* زر عرض المنتج */
         .view-product-btn {
             display: block;
             background: var(--black);
@@ -285,9 +331,9 @@
         .view-product-btn:active {
             background: var(--black);
             color: var(--white);
+            transform: scale(0.95);
         }
 
-        /* للشاشات المتوسطة */
         @media (max-width: 768px) {
             .nav {
                 display: none;
@@ -298,7 +344,7 @@
             }
             
             .products-grid {
-                grid-template-columns: repeat(2, 1fr); /* عمودين */
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
             
@@ -313,17 +359,20 @@
             .logo-text {
                 font-size: 1.2rem;
             }
+            
+            .preloader-logo-img {
+                width: 80px;
+            }
         }
 
-        /* للشاشات الصغيرة جداً */
         @media (max-width: 480px) {
             .products-grid {
-                grid-template-columns: repeat(2, 1fr); /* يبقى عمودين */
+                grid-template-columns: repeat(2, 1fr);
                 gap: 0.8rem;
             }
             
             .product-image {
-                height: 200px;
+                height: 180px;
             }
             
             .product-name {
@@ -336,16 +385,25 @@
             
             .view-product-btn {
                 padding: 0.6rem;
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Preloader مع شعار lo2.png -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <img src="lo2.png" alt="CAPO" class="preloader-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+            <div class="preloader-logo-text" style="display: none;">CAPO</div>
+        </div>
+    </div>
+
     <header class="header">
         <div class="header-inner">
+            <!-- الشعار في الهيدر lo.jpg -->
             <a href="index.html" class="logo">
-                <img src="lo2.PNG" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+                <img src="lo.jpg" alt="CAPO Logo" class="logo-img" onerror="this.style.display='none'">
                 <span class="logo-text">CAPO<span>BRAND</span></span>
             </a>
             
@@ -402,7 +460,7 @@
             
             container.innerHTML = products.map((product, index) => `
                 <div class="product-card">
-                    <div class="product-image" onclick="window.location.href='product.html?id=${product.id}'">
+                    <div class="product-image">
                         <img src="${product.image}" alt="${product.name}" 
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                         <span class="product-placeholder" style="display: none;">👕</span>
